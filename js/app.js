@@ -3,10 +3,10 @@
 ######################################################### */
 
 class Piece {
-  constructor(token, color, xy, selected) {
+  constructor(token, color, location, selected) {
     this.token = token
     this.color = color
-    this.xy = xy
+    this.location = location
     this.selected = selected
   }
 }
@@ -27,8 +27,7 @@ let boardSquares = []
 for (let i = 0; i < 8; i++) {
   let locData = "square0" + i
   const square = new BoardSquare (i, false, false, false)
-  boardSquares.push(square)
-}
+  boardSquares.push(square)}
 for (let i = 10; i < 18; i++) {
   let locData = "square" + i
   const square = new BoardSquare (i, false, false, false)
@@ -39,12 +38,12 @@ for (let i = 20; i < 28; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
 }
-for (let i = 30; i < 8; i++) {
+for (let i = 30; i < 38; i++) {
   let locData = "square" + i
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
 }
-for (let i = 40; i < 8; i++) {
+for (let i = 40; i < 48; i++) {
   let locData = "square" + i
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
@@ -64,11 +63,33 @@ for (let i = 70; i < 78; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
 }
-boardSquares.forEach((square) => {
-  console.log(square.location);
-})
 
-console.log(boardSquares);
+// boardSquares.forEach((square) => {
+//   console.log(square.location);
+// })
+console.log("Final Size check: ", boardSquares.length);
+
+const whiteRook1 = new Piece("R", "White", 74, false)
+const whiteRook2 = new Piece("R", "White", 1, false)
+const whiteKing = new Piece("K", "White", 27, false)
+const blackKing = new Piece("K", "Black", 30, false)
+
+const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+// pieces.forEach((piece) => {
+//   console.log(piece.location)
+// })
+// boardSquares.forEach((square) => {
+//   if (square.location === whiteKing.location) {
+//     square.occupied = true
+//   }
+// })
+
+
+// boardSquares.forEach((square) => {
+//   console.log(square.location);
+// })
+
+// console.log(boardSquares);
 // //Top row:
 // const square00 = new BoardSquare("00", false, false, false)
 // const square10 = new BoardSquare("10", false, false, false)
@@ -154,19 +175,17 @@ console.log(boardSquares);
 // ]
 
 
-const whiteRook1 = new Piece("R", "White", "74", false)
-const whiteRook2 = new Piece("R", "White", "01", false)
-const whiteKing = new Piece("K", "White", "27", false)
-const blackKing = new Piece("K", "Black", "30", false)
-
-const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 
 // pieces.forEach((piece) => {
 //   let occupiedSquare = eval("square" + piece.xy)
 //   occupiedSquare.occupied = true
 //   console.log("Occupied check: ", occupiedSquare)
 // })
-//todo Come back to this!
+
+//todo #############################################################################
+//todo ####################### Come back to this! ##################################
+//todo #############################################################################
+
 // boardSquares.forEach((square) => {
 //   console.log(square.location, square.occupied);
 //   if(square.occupied === true) {
