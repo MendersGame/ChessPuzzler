@@ -97,11 +97,16 @@ function init() {
 
 function updateBoard() {
   boardSquares.forEach((square) => {
+    //clears board of all elements
+    document.getElementById(square.location).textContent = ""
+    //places pieces:
     pieces.forEach((piece) => {
+      piece.selected = false
       if (square.location === piece.location) {
         let printPiece = square.location.toString()
+        piece.selected = true
         document.getElementById(printPiece).textContent = piece.token
-      }
+      } 
     })
   })
 }
@@ -115,15 +120,31 @@ function handleClick(event) {
     if (sqInt === piece.location) {
       document.getElementById(sqIdx).textContent = "X"
       piece.selected = true
-    } else {
-      piece.selected = false
+    } 
+    else if (sqInt != piece.location){
+      pieces.forEach((piece) => {
+        piece.selected = false
+      })
+      updateBoard()
+    }
+  })
+  highlightSquares()
+}
+
+function highlightSquares() {
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let north = piece.location - 1
+      console.log(north);
+      document.getElementById(north).textContent = "+"
     }
   })
 }
-
+console.log(pieces);
 //Movement functions are described using directions as found on an 8 point compass
 function moveNorth() {
  // location - 1
+  square.location - 1
 }
 
 function moveSouth() {
