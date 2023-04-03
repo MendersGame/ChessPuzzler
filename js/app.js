@@ -66,18 +66,39 @@ const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 //todo #############################################################################
 //todo ####################### Come back to this! ##################################
 //todo #############################################################################
-document.getElementById("27").textcontent = "K"
+const square27 = document.getElementById("27")
+square27.textContent = "K"
+let blackKingTest = blackKing.location
+console.log(blackKingTest);
+blackKingTest = blackKingTest.toString()
+console.log(blackKingTest);
+const square30 = document.getElementById(blackKingTest)
+square30.textContent = blackKing.token
+
 pieces.forEach((piece) => {
   
 })
-boardSquares.forEach((square) => {
-  // console.log(square.location, square.occupied);
-  if(square.location === 27) {
-    console.log(square.location);
-    let occSquare = 27
-    document.getElementById("27").textcontent = "K"
-  }
-})
+// boardSquares.forEach((square) => {
+//   // console.log(square.location, square.occupied);
+//   if(square.location === whiteKing.location) {
+//     console.log(square.location);
+//     let WK = num.toString(whiteKing.location)
+//     console.log(WK);
+//     document.getElementById(WK).textContent = "K"
+//   }
+//   else if(square.location === blackKing.location) {
+//     console.log(square.location);
+//     document.getElementById(blackKing.location).textContent = "BK"
+//   }
+//   else if(square.location === whiteRook1.location) {
+//     console.log(square.location);
+//     document.getElementById(whiteRook1.location).textContent = "R"
+//   }
+//   else if(square.location === whiteRook2.location) {
+//     console.log(square.location);
+//     document.getElementById(whiteRook2.location).textContent = "R"
+//   }
+// })
 
 // console.log("Board: ", boardSquares);
 
