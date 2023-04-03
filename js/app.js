@@ -63,55 +63,6 @@ const blackKing = new Piece("K", "Black", 30, false)
 
 const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 
-//todo #############################################################################
-//todo ####################### Come back to this! ##################################
-//todo #############################################################################
-const square27 = document.getElementById("27")
-square27.textContent = "K"
-let blackKingTest = blackKing.location
-console.log(blackKingTest);
-blackKingTest = blackKingTest.toString()
-console.log(blackKingTest);
-const square30 = document.getElementById(blackKingTest)
-square30.textContent = blackKing.token
-
-pieces.forEach((piece) => {
-  
-})
-// boardSquares.forEach((square) => {
-//   // console.log(square.location, square.occupied);
-//   if(square.location === whiteKing.location) {
-//     console.log(square.location);
-//     let WK = num.toString(whiteKing.location)
-//     console.log(WK);
-//     document.getElementById(WK).textContent = "K"
-//   }
-//   else if(square.location === blackKing.location) {
-//     console.log(square.location);
-//     document.getElementById(blackKing.location).textContent = "BK"
-//   }
-//   else if(square.location === whiteRook1.location) {
-//     console.log(square.location);
-//     document.getElementById(whiteRook1.location).textContent = "R"
-//   }
-//   else if(square.location === whiteRook2.location) {
-//     console.log(square.location);
-//     document.getElementById(whiteRook2.location).textContent = "R"
-//   }
-// })
-
-// console.log("Board: ", boardSquares);
-
-// const whiteRook1 = new Piece("R", "White", "30", false)
-
-// Testing for storing spererate X and Y coords for pieces
-// console.log(square30, whiteRook1)
-// let testPiece = eval(whiteRook1.xCoord + whiteRook1.yCoord)
-// console.log("Test Piece: ", testPiece)
-
-// let testPiece = whiteRook1.xy
-// console.log(testPiece);
-
 /* ######################################################
 #################### Variables ##########################
 ######################################################### */
@@ -144,32 +95,30 @@ function init() {
 
 }
 
-// function updateBoard() {
-
-// }
-
-function handleClick() {
-  // console.log(event.target.id);
-  const sqIdx = event.target.idx
-
-
-}
-
 function updateBoard() {
   boardSquares.forEach((square) => {
-    // console.log(`Square: `, square.location);
-    if(square.occupied === true) {
-      // console.log("Occupied: ", square.location);
-
-    }
+    pieces.forEach((piece) => {
+      if (square.location === piece.location) {
+        let printPiece = square.location.toString()
+        document.getElementById(printPiece).textContent = piece.token
+      }
+    })
   })
 }
 
 updateBoard()
 
-
-function placePieces() {
-
+function handleClick(event) {
+  const sqIdx = event.target.id
+  let sqInt = parseInt(sqIdx)
+  pieces.forEach((piece) => {
+    if (sqInt === piece.location) {
+      document.getElementById(sqIdx).textContent = "X"
+      piece.selected = true
+    } else {
+      piece.selected = false
+    }
+  })
 }
 
 //Movement functions are described using directions as found on an 8 point compass
