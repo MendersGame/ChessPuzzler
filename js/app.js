@@ -136,10 +136,10 @@ function handleClick(event) {
       moveKing()
     }
   } 
-  // else if (boardSquares.find(square => square.location === sqInt)) {
-  //   let checkSquare = boardSquares.find(square => square.location === sqInt)
-  //   console.log("Check square: ", checkSquare);
-  // } 
+  else if (boardSquares.find(square => square.location === sqInt)) {
+    let checkSquare = boardSquares.find(square => square.location === sqInt)
+    console.log("Check square: ", checkSquare);
+  } 
   else {
     console.log("miss");
     console.log(pieces);
@@ -163,30 +163,36 @@ function moveNorth() {
       while (hit % 10 !== 0) {
         hit = hit - 1
         document.getElementById(hit).textContent = "--"
+        boardSquares.forEach(square.location = hit.location) { square.highlighted = true }
         }
     }
   })
   }
 
-  // let i = piece.location
-  // if (i % 10 !== 0) {
-  //   i = i - 1
-  // }
-  // return piece.location - 1
-
 
 function moveSouth() {
   // location + 1
   //! This should stop after 7, since no column includes any values ending in 8
-  // pieces.forEach((piece) => {
-  //   if (piece.selected === true) {
-  //     let hit = piece.location
-  //     while (hit != undefined) {
-  //       hit = hit + 1
-  //       document.getElementById(hit).textContent = "--"
-  //       }
-  //   }
-  // })
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let hit = piece.location
+      let col = hit % 10
+      // flip, hit greater than 10, then while loop
+      if (hit < 10) {
+        while (hit < 7) {
+          hit = hit + 1
+          console.log("South : ", hit);
+          document.getElementById(hit).textContent = "--"
+          }
+      }
+      // remove first digit of column
+      while (hit < 8) {
+        hit = hit + 1
+        console.log("South : ", hit);
+        document.getElementById(hit).textContent = "--"
+        }
+    }
+  })
 }
 
 function moveWest() {
