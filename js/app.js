@@ -24,6 +24,7 @@ class BoardSquare {
 ######################################################### */
 
 let boardSquares = []
+// Each for loop creates a column of 8 squares starting on the left and moving right
 for (let i = 0; i < 8; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)}
@@ -83,7 +84,7 @@ squareEls.forEach(square => {
 ################# Event Listeners #######################
 ######################################################### */
 
-
+document.getElementById("resetButton").addEventListener('click', updateBoard)
 
 /* ######################################################
 #################### Functions ##########################
@@ -116,19 +117,25 @@ updateBoard()
 function handleClick(event) {
   const sqIdx = event.target.id
   let sqInt = parseInt(sqIdx)
-  pieces.forEach((piece) => {
-    if (sqInt === piece.location) {
-      document.getElementById(sqIdx).textContent = "X"
-      piece.selected = true
-    } 
-    else if (sqInt != piece.location){
-      pieces.forEach((piece) => {
-        piece.selected = false
-      })
-      updateBoard()
-    }
-  })
-  highlightSquares()
+  if (pieces.find(piece => piece.location === sqInt)) {
+    console.log("Hit");
+    console.log("Piece: ", piece);
+  } else {
+    console.log("Miss");
+  }
+  // console.log("Hit check: ", sqIdx, pieces.includes(sqIdx));
+  // if (pieces.includes(sqIdx)) {
+  //   console.log("Hit");
+  // }
+  // let selectedPiece = pieces.find(({sqIdx}) => sqIdx === pieces.location)
+  // console.log("Selected Square: ", sqIdx);
+  // console.log(pieces.find(({sqIdx}) => sqIdx === pieces.location));
+  // console.log(pieces.includes(sqIdx));
+  // console.log(pieces.location);
+  // if (pieces.find(({sqIdx}) => sqIdx === pieces.location)) {
+  //   console.log("Hit");
+  // }
+  // highlightSquares()
 }
 
 function highlightSquares() {
@@ -140,11 +147,11 @@ function highlightSquares() {
     }
   })
 }
-console.log(pieces);
+
 //Movement functions are described using directions as found on an 8 point compass
 function moveNorth() {
  // location - 1
-  square.location - 1
+  return piece.location - 1
 }
 
 function moveSouth() {
