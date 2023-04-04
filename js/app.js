@@ -115,6 +115,10 @@ function updateBoard() {
 updateBoard()
 
 function handleClick(event) {
+  pieces.forEach((piece) => {
+    piece.selected = false
+  })
+  updateBoard()
   const sqIdx = event.target.id
   let sqInt = parseInt(sqIdx)
   console.log("Square: ", sqInt);
@@ -122,6 +126,7 @@ function handleClick(event) {
     console.log("hit")
     let hit = pieces.find(piece => piece.location === sqInt)
     hit.selected = true
+    console.log(pieces);
     if (hit.token === "R") {
       moveNorth()
       moveSouth()
@@ -130,14 +135,18 @@ function handleClick(event) {
     } else if (hit.token === "K") {
       moveKing()
     }
-  } else {
+  } 
+  // else if (boardSquares.find(square => square.location === sqInt)) {
+  //   let checkSquare = boardSquares.find(square => square.location === sqInt)
+  //   console.log("Check square: ", checkSquare);
+  // } 
+  else {
+    console.log("miss");
+    console.log(pieces);
+    updateBoard()
     pieces.forEach((piece) => {
       piece.selected = false
-      console.log("miss");
-      console.log(pieces);
-      updateBoard()
     })
-
   }
 }
 
@@ -168,6 +177,16 @@ function moveNorth() {
 
 function moveSouth() {
   // location + 1
+  //! This should stop after 7, since no column includes any values ending in 8
+  // pieces.forEach((piece) => {
+  //   if (piece.selected === true) {
+  //     let hit = piece.location
+  //     while (hit != undefined) {
+  //       hit = hit + 1
+  //       document.getElementById(hit).textContent = "--"
+  //       }
+  //   }
+  // })
 }
 
 function moveWest() {
