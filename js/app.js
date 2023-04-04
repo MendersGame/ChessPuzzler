@@ -117,26 +117,20 @@ updateBoard()
 function handleClick(event) {
   const sqIdx = event.target.id
   let sqInt = parseInt(sqIdx)
+  console.log("Square: ", sqInt);
+pieces.every((piece) => {
   if (pieces.find(piece => piece.location === sqInt)) {
-    console.log("Hit");
-    console.log("Piece: ", piece);
-  } else {
-    console.log("Miss");
+    console.log("hit")
+    let hit = pieces.find(piece => piece.location === sqInt)
+    hit.selected = true
+    console.log(hit);
+  } else if (piece => piece.location !== sqInt) {
+    console.log("miss");
+    return false
   }
-  // console.log("Hit check: ", sqIdx, pieces.includes(sqIdx));
-  // if (pieces.includes(sqIdx)) {
-  //   console.log("Hit");
-  // }
-  // let selectedPiece = pieces.find(({sqIdx}) => sqIdx === pieces.location)
-  // console.log("Selected Square: ", sqIdx);
-  // console.log(pieces.find(({sqIdx}) => sqIdx === pieces.location));
-  // console.log(pieces.includes(sqIdx));
-  // console.log(pieces.location);
-  // if (pieces.find(({sqIdx}) => sqIdx === pieces.location)) {
-  //   console.log("Hit");
-  // }
-  // highlightSquares()
+})
 }
+
 
 function highlightSquares() {
   pieces.forEach((piece) => {
