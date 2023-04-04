@@ -152,7 +152,8 @@ function handleClick(event) {
 
 
 function highlightSquares() {
-
+  // let sqHighlight = boardSquares.find(square => square.location === hit)
+  // sqHighlight.highlighted = true
 }
 
 //Movement functions are described using directions as found on an 8 point compass
@@ -163,7 +164,8 @@ function moveNorth() {
       while (hit % 10 !== 0) {
         hit = hit - 1
         document.getElementById(hit).textContent = "--"
-        boardSquares.forEach(square.location = hit.location) { square.highlighted = true }
+        let sqHighlight = boardSquares.find(square => square.location === hit)
+        sqHighlight.highlighted = true
         }
     }
   })
@@ -172,25 +174,31 @@ function moveNorth() {
 
 function moveSouth() {
   // location + 1
-  //! This should stop after 7, since no column includes any values ending in 8
   pieces.forEach((piece) => {
     if (piece.selected === true) {
       let hit = piece.location
-      let col = hit % 10
       // flip, hit greater than 10, then while loop
       if (hit < 10) {
         while (hit < 7) {
           hit = hit + 1
           console.log("South : ", hit);
           document.getElementById(hit).textContent = "--"
+          let sqHighlight = boardSquares.find(square => square.location === hit)
+          sqHighlight.highlighted = true
           }
-      }
+      } else {
       // remove first digit of column
-      while (hit < 8) {
+      let hitStr = hit.toString().substring(1)
+      let hitInt = parseInt(hitStr)
+      console.log("Hit check: ", hit, hitStr, hitInt);
+      while (hitInt < 7) {
+        hitInt = hitInt + 1
         hit = hit + 1
-        console.log("South : ", hit);
+        let sqHighlight = boardSquares.find(square => square.location === hit)
+        sqHighlight.highlighted = true
         document.getElementById(hit).textContent = "--"
-        }
+        } 
+      }
     }
   })
 }
@@ -203,6 +211,8 @@ function moveWest() {
       while (hit > 10) {
         hit = hit - 10
         document.getElementById(hit).textContent = "--"
+        let sqHighlight = boardSquares.find(square => square.location === hit)
+        sqHighlight.highlighted = true
         }
     }
   })
@@ -216,6 +226,8 @@ function moveEast() {
       while (hit < 70) {
         hit = hit + 10
         document.getElementById(hit).textContent = "--"
+        let sqHighlight = boardSquares.find(square => square.location === hit)
+        sqHighlight.highlighted = true
         }
     }
   })
@@ -240,3 +252,5 @@ function moveSW() {
 function moveKing() {
   console.log("Don't move the King");
 }
+
+console.log(boardSquares);
