@@ -57,7 +57,7 @@ for (let i = 70; i < 78; i++) {
   boardSquares.push(square)
 }
 
-const whiteRook1 = new Piece("R", "White", 74, false)
+const whiteRook1 = new Piece("R", "White", 54, false)
 const whiteRook2 = new Piece("R", "White", 1, false)
 const whiteKing = new Piece("K", "White", 27, false)
 const blackKing = new Piece("K", "Black", 30, false)
@@ -118,46 +118,82 @@ function handleClick(event) {
   const sqIdx = event.target.id
   let sqInt = parseInt(sqIdx)
   console.log("Square: ", sqInt);
-pieces.every((piece) => {
   if (pieces.find(piece => piece.location === sqInt)) {
     console.log("hit")
     let hit = pieces.find(piece => piece.location === sqInt)
     hit.selected = true
-    console.log(hit);
-  } else if (piece => piece.location !== sqInt) {
-    console.log("miss");
-    return false
+    if (hit.token === "R") {
+      moveNorth()
+      moveSouth()
+      moveEast()
+      moveWest()
+    } else if (hit.token === "K") {
+      moveKing()
+    }
+  } else {
+    pieces.forEach((piece) => {
+      piece.selected = false
+      console.log("miss");
+      console.log(pieces);
+      updateBoard()
+    })
+
   }
-})
 }
 
 
 function highlightSquares() {
-  pieces.forEach((piece) => {
-    if (piece.selected === true) {
-      let north = piece.location - 1
-      console.log(north);
-      document.getElementById(north).textContent = "+"
-    }
-  })
+
 }
 
 //Movement functions are described using directions as found on an 8 point compass
 function moveNorth() {
- // location - 1
-  return piece.location - 1
-}
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let hit = piece.location
+      while (hit % 10 !== 0) {
+        hit = hit - 1
+        document.getElementById(hit).textContent = "--"
+        }
+    }
+  })
+  }
+
+  // let i = piece.location
+  // if (i % 10 !== 0) {
+  //   i = i - 1
+  // }
+  // return piece.location - 1
+
 
 function moveSouth() {
   // location + 1
 }
 
 function moveWest() {
-  // location - 1
+  // location - 10
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let hit = piece.location
+      while (hit > 10) {
+        hit = hit - 10
+        document.getElementById(hit).textContent = "--"
+        }
+    }
+  })
 }
 
 function moveEast() {
-  // location + 1
+  // location + 10
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let hit = piece.location
+      while (hit < 70) {
+        hit = hit + 10
+        document.getElementById(hit).textContent = "--"
+        }
+    }
+  })
 }
 
 function moveNW() {
@@ -174,4 +210,8 @@ function moveSE() {
 
 function moveSW() {
   // location - 9
+}
+
+function moveKing() {
+  console.log("Don't move the King");
 }
