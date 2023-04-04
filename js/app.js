@@ -111,43 +111,57 @@ function updateBoard() {
     })
   })
 }
+let pIdx
 
 updateBoard()
 
 function handleClick(event) {
-  pieces.forEach((piece) => {
-    piece.selected = false
-  })
+
+  // pieces[pIdx].selected = false
+  // pieces.forEach((piece) => {
+  //   piece.selected = false
+  // })
   updateBoard()
   const sqIdx = event.target.id
   let sqInt = parseInt(sqIdx)
   console.log("Square: ", sqInt);
   if (pieces.find(piece => piece.location === sqInt)) {
     console.log("hit")
-    let hit = pieces.find(piece => piece.location === sqInt)
-    hit.selected = true
+    pIdx = pieces.findIndex(piece => piece.location === sqInt)
+    console.log(pieces[pIdx]);
+    pieces[pIdx].selected = true
     console.log(pieces);
-    if (hit.token === "R") {
+    if (pieces[pIdx].token === "R") {
       moveNorth()
       moveSouth()
       moveEast()
       moveWest()
-    } else if (hit.token === "K") {
+    } else if (pieces[pIdx].token === "K") {
       moveKing()
     }
   } 
   else if (boardSquares.find(square => square.location === sqInt)) {
     let checkSquare = boardSquares.find(square => square.location === sqInt)
-    console.log("Check square: ", checkSquare);
+    // console.log("Check square: ", checkSquare);
+    if (checkSquare.highlighted === true) {
+      console.log(pieces);
+      let movePiece = pieces.find(piece => piece.selected === true)
+      console.log("movePiece: ", movePiece);
+      movePiece.location = sqInt
+    } else {
+      console.log("not highlighted");
+    }
   } 
-  else {
-    console.log("miss");
-    console.log(pieces);
-    updateBoard()
-    pieces.forEach((piece) => {
-      piece.selected = false
-    })
-  }
+
+  // else {
+  //   console.log("miss");
+  //   console.log(pieces);
+  //   updateBoard()
+  //   pieces.forEach((piece) => {
+  //     piece.selected = false
+  //   })
+  // }
+  // pieces[pIdx].selected = false
 }
 
 
