@@ -22,7 +22,16 @@ class BoardSquare {
 /* ######################################################
 #################### Constants ##########################
 ######################################################### */
+// Element that the image will be applied to:
+const imageContainer = document.querySelector('.sqr')
 
+// Applying background image:
+imageContainer.style.backgroundImage = "../Pieces/whiteRook.png')"
+
+// document.getElementById("77").style.backgroundImage = "url(`./Pieces/whiteRook.png`)"
+// import whiteRookPiece from "../assets/Pieces/whiteRook.png"
+let whiteRookPiece = new Image()
+whiteRookPiece.src = "../assets/Pieces/"
 let boardSquares = []
 let moveSquares = []
 for (let col = 0; col < 80; col += 10) {
@@ -76,14 +85,17 @@ function init() {
 function updateBoard() {
   boardSquares.forEach((square) => {
     //clears board of all elements
-    document.getElementById(square.location).textContent = ""
+    // document.getElementById(square.location).style.backgroundColor = ""
     //places pieces:
     pieces.forEach((piece) => {
       piece.selected = false
       if (square.location === piece.location) {
         let printPiece = square.location.toString()
         piece.selected = true
-        document.getElementById(printPiece).textContent = piece.token
+        // document.getElementById(printPiece).textContent = piece.token
+        const pieceSquare = document.getElementById(printPiece)
+        pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
+        pieceSquare.style.backgroundSize = "cover"
       } 
     })
   })
@@ -110,9 +122,9 @@ function handleClick(event) {
   } else if (boardSquares.find(square => square.location === sqInt)) {
     if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
       prevSelected.location = sqInt
-      updateBoard()
     }
   }
+  // updateBoard()
 }
 
 
@@ -126,9 +138,6 @@ function moveNorth() {
       while (hit % 10 !== 0) {
         hit = hit - 1
         highlightSquares(hit)
-        // document.getElementById(hit).textContent = "--"
-        // let sqHighlight = boardSquares.find(square => square.location === hit)
-        // sqHighlight.highlighted = true
         }
     }
   })
@@ -145,9 +154,7 @@ function moveSouth() {
         while (hit < 7) {
           hit = hit + 1
           console.log("South : ", hit);
-          document.getElementById(hit).textContent = "--"
-          let sqHighlight = boardSquares.find(square => square.location === hit)
-          sqHighlight.highlighted = true
+          highlightSquares(hit)
           }
       } else {
       // remove first digit of column
@@ -157,9 +164,7 @@ function moveSouth() {
       while (hitInt < 7) {
         hitInt = hitInt + 1
         hit = hit + 1
-        let sqHighlight = boardSquares.find(square => square.location === hit)
-        sqHighlight.highlighted = true
-        document.getElementById(hit).textContent = "--"
+        highlightSquares(hit)
         } 
       }
     }
@@ -173,9 +178,7 @@ function moveWest() {
       let hit = piece.location
       while (hit > 10) {
         hit = hit - 10
-        document.getElementById(hit).textContent = "--"
-        let sqHighlight = boardSquares.find(square => square.location === hit)
-        sqHighlight.highlighted = true
+        highlightSquares(hit)
         }
     }
   })
@@ -188,9 +191,7 @@ function moveEast() {
       let hit = piece.location
       while (hit < 70) {
         hit = hit + 10
-        document.getElementById(hit).textContent = "--"
-        let sqHighlight = boardSquares.find(square => square.location === hit)
-        sqHighlight.highlighted = true
+        highlightSquares(hit)
         }
     }
   })
@@ -217,12 +218,10 @@ function moveKing() {
 }
 
 function highlightSquares(sq) {
-  document.getElementById(sq).textContent = "--"
+  // document.getElementById(sq).textContent = "--"
   let sqHighlight = boardSquares.find(square => square.location === sq)
   sqHighlight.highlighted = true
-  // boardSquares.forEach(square) {
-  //   boardSquares.find()
-  // }
+  document.getElementById(sq).style.backgroundColor = "yellow"
 }
 
 console.log(boardSquares);
