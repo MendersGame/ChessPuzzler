@@ -36,17 +36,17 @@ for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
     if (col === 0 || col === 20 || col === 40 || col === 60) {
       if (row % 2 === 0) {
-        document.getElementById(row + col).style.backgroundColor = "lightBlue"
+        document.getElementById(row + col).style.backgroundColor = "lightslategray"
       } else if (row % 2 !== 0) {
-        document.getElementById(row + col).style.backgroundColor = "darkBlue"
+        document.getElementById(row + col).style.backgroundColor = "darkslategray"
       }
       const square = new BoardSquare(row + col, false, false, false)
       boardSquares.push(square)
     } else {
       if (row % 2 !== 0) {
-        document.getElementById(row + col).style.backgroundColor = "lightBlue"
+        document.getElementById(row + col).style.backgroundColor = "lightslategray"
       } else if (row % 2 === 0) {
-        document.getElementById(row + col).style.backgroundColor = "darkBlue"
+        document.getElementById(row + col).style.backgroundColor = "darkslategray"
       }
       const square = new BoardSquare(row + col, false, false, false)
       boardSquares.push(square)
@@ -89,9 +89,8 @@ document.getElementById("resetButton").addEventListener('click', updateBoard)
 
 init()
 updateBoard()
-function checkerBoard() {
+// placePieces()
 
-}
 function init() {
 
 }
@@ -125,6 +124,7 @@ function updateBoard() {
   })
 }
 
+
 function handleClick(event) {
   updateBoard()
   const sqInt = parseInt(event.target.id)
@@ -148,10 +148,32 @@ function handleClick(event) {
       prevSelected.location = sqInt
     }
   }
-  // updateBoard()
+  // placePieces(sqInt)
 }
 
-
+// function placePieces (sq) {
+//   pieces.forEach((piece) => {
+//     piece.selected = false
+//     if (sq.location === piece.location) {
+//       let printPiece = sq.location.toString()
+//       piece.selected = true
+      // // document.getElementById(printPiece).textContent = piece.token
+//       if (piece.token === "R" && piece.color === "White") {
+//         const pieceSquare = document.getElementById(printPiece)
+//         pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
+//         pieceSquare.style.backgroundSize = "cover"
+//       } else if (piece.token === "K" && piece.color === "White") {
+//         const pieceSquare = document.getElementById(printPiece)
+//         pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
+//         pieceSquare.style.backgroundSize = "cover"
+//       } else if (piece.token === "K" && piece.color === "Black") {
+//         const pieceSquare = document.getElementById(printPiece)
+//         pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
+//         pieceSquare.style.backgroundSize = "cover"
+//       }
+//     }
+//   })
+// }
 
 
 //Movement functions are described using directions as found on an 8 point compass
@@ -242,13 +264,11 @@ function moveKing() {
 }
 
 function highlightSquares(sq) {
-  // document.getElementById(sq).textContent = "--"
   let sqHighlight = boardSquares.find(square => square.location === sq)
   sqHighlight.highlighted = true
   const moveSquare = document.getElementById(sq)
   moveSquare.style.backgroundImage = "url('../assets/yellowDot.png')"
   moveSquare.style.backgroundSize = "cover"
-  // document.getElementById(sq).style.backgroundColor = "yellow"
 }
 
 console.log(boardSquares);
