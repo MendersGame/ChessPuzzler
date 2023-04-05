@@ -22,24 +22,42 @@ class BoardSquare {
 /* ######################################################
 #################### Constants ##########################
 ######################################################### */
-// Element that the image will be applied to:
-const imageContainer = document.querySelector('.sqr')
 
-// Applying background image:
-imageContainer.style.backgroundImage = "../Pieces/whiteRook.png')"
-
-// document.getElementById("77").style.backgroundImage = "url(`./Pieces/whiteRook.png`)"
-// import whiteRookPiece from "../assets/Pieces/whiteRook.png"
-let whiteRookPiece = new Image()
-whiteRookPiece.src = "../assets/Pieces/"
 let boardSquares = []
 let moveSquares = []
 for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
-    const square = new BoardSquare (row + col, false, false, false)
-    boardSquares.push(square)
+    if (col === 0 || col === 20 || col === 40 || col === 60) {
+      if (row % 2 === 0) {
+        document.getElementById(row + col).style.backgroundColor = "lightBlue"
+      } else if (row % 2 !== 0) {
+        document.getElementById(row + col).style.backgroundColor = "darkBlue"
+      }
+      const square = new BoardSquare(row + col, false, false, false)
+      boardSquares.push(square)
+    } else {
+      if (row % 2 !== 0) {
+        document.getElementById(row + col).style.backgroundColor = "lightBlue"
+      } else if (row % 2 === 0) {
+        document.getElementById(row + col).style.backgroundColor = "darkBlue"
+      }
+      const square = new BoardSquare(row + col, false, false, false)
+      boardSquares.push(square)
+    }
   }
 }
+
+// let shadeIdx = 0
+// boardSquares.forEach((square) => {
+//   let shade = square.location
+//     if (shadeIdx % 2 === 0) {
+//       document.getElementById(shade).style.backgroundColor = "lightBlue"
+//     } else if (shadeIdx % 2 !== 0) {
+//       document.getElementById(shade).style.backgroundColor = "darkBlue"
+//     }
+//   shadeIdx++
+//   console.log("Square | Index: ", shade, "|", shadeIdx);
+// })
 
 const whiteRook1 = new Piece("R", "White", 54, false)
 const whiteRook2 = new Piece("R", "White", 1, false)
@@ -93,10 +111,20 @@ function updateBoard() {
         let printPiece = square.location.toString()
         piece.selected = true
         // document.getElementById(printPiece).textContent = piece.token
-        const pieceSquare = document.getElementById(printPiece)
-        pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
-        pieceSquare.style.backgroundSize = "cover"
-      } 
+        if (piece.token === "R" && piece.color === "White") {
+          const pieceSquare = document.getElementById(printPiece)
+          pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
+          pieceSquare.style.backgroundSize = "cover"
+        } else if (piece.token === "K" && piece.color === "White") {
+          const pieceSquare = document.getElementById(printPiece)
+          pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
+          pieceSquare.style.backgroundSize = "cover"
+        } else if (piece.token === "K" && piece.color === "Black") {
+          const pieceSquare = document.getElementById(printPiece)
+          pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
+          pieceSquare.style.backgroundSize = "cover"
+        }
+      }
     })
   })
 }
@@ -138,10 +166,10 @@ function moveNorth() {
       while (hit % 10 !== 0) {
         hit = hit - 1
         highlightSquares(hit)
-        }
+      }
     }
   })
-  }
+}
 
 
 function moveSouth() {
@@ -155,17 +183,17 @@ function moveSouth() {
           hit = hit + 1
           console.log("South : ", hit);
           highlightSquares(hit)
-          }
+        }
       } else {
-      // remove first digit of column
-      let hitStr = hit.toString().substring(1)
-      let hitInt = parseInt(hitStr)
-      console.log("Hit check: ", hit, hitStr, hitInt);
-      while (hitInt < 7) {
-        hitInt = hitInt + 1
-        hit = hit + 1
-        highlightSquares(hit)
-        } 
+        // remove first digit of column
+        let hitStr = hit.toString().substring(1)
+        let hitInt = parseInt(hitStr)
+        console.log("Hit check: ", hit, hitStr, hitInt);
+        while (hitInt < 7) {
+          hitInt = hitInt + 1
+          hit = hit + 1
+          highlightSquares(hit)
+        }
       }
     }
   })
@@ -179,7 +207,7 @@ function moveWest() {
       while (hit > 10) {
         hit = hit - 10
         highlightSquares(hit)
-        }
+      }
     }
   })
 }
@@ -192,7 +220,7 @@ function moveEast() {
       while (hit < 70) {
         hit = hit + 10
         highlightSquares(hit)
-        }
+      }
     }
   })
 }
