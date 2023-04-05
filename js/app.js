@@ -24,7 +24,7 @@ class BoardSquare {
 ######################################################### */
 
 let boardSquares = []
-let moveSquares = []
+
 for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
     if (col === 0 || col === 20 || col === 40 || col === 60) {
@@ -46,18 +46,6 @@ for (let col = 0; col < 80; col += 10) {
     }
   }
 }
-
-// let shadeIdx = 0
-// boardSquares.forEach((square) => {
-//   let shade = square.location
-//     if (shadeIdx % 2 === 0) {
-//       document.getElementById(shade).style.backgroundColor = "lightBlue"
-//     } else if (shadeIdx % 2 !== 0) {
-//       document.getElementById(shade).style.backgroundColor = "darkBlue"
-//     }
-//   shadeIdx++
-//   console.log("Square | Index: ", shade, "|", shadeIdx);
-// })
 
 const whiteRook1 = new Piece("R", "White", 54, false)
 const whiteRook2 = new Piece("R", "White", 1, false)
@@ -253,4 +241,3 @@ function highlightSquares(sq) {
 }
 
 console.log(boardSquares);
-console.log("Move squares: ", moveSquares);
