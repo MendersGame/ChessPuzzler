@@ -25,6 +25,13 @@ class BoardSquare {
 
 let boardSquares = []
 
+// for (let col = 0; col < 80; col += 10) {
+//   for (let row = 0; row < 8; row++) {
+//     const square = new BoardSquare (row + col, false, false, false)
+//     boardSquares.push(square)
+//   }
+// }
+
 for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
     if (col === 0 || col === 20 || col === 40 || col === 60) {
@@ -81,6 +88,7 @@ document.getElementById("resetButton").addEventListener('click', updateBoard)
 ######################################################### */
 
 init()
+updateBoard()
 function checkerBoard() {
 
 }
@@ -91,7 +99,7 @@ function init() {
 function updateBoard() {
   boardSquares.forEach((square) => {
     //clears board of all elements
-    // document.getElementById(square.location).style.backgroundColor = ""
+    document.getElementById(square.location).style.backgroundImage = ""
     //places pieces:
     pieces.forEach((piece) => {
       piece.selected = false
@@ -237,7 +245,10 @@ function highlightSquares(sq) {
   // document.getElementById(sq).textContent = "--"
   let sqHighlight = boardSquares.find(square => square.location === sq)
   sqHighlight.highlighted = true
-  document.getElementById(sq).style.backgroundColor = "yellow"
+  const moveSquare = document.getElementById(sq)
+  moveSquare.style.backgroundImage = "url('../assets/yellowDot.png')"
+  moveSquare.style.backgroundSize = "cover"
+  // document.getElementById(sq).style.backgroundColor = "yellow"
 }
 
 console.log(boardSquares);
