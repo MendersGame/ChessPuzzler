@@ -27,34 +27,75 @@ let boardSquares = []
 // Each for loop creates a column of 8 squares starting on the left and moving right
 for (let i = 0; i < 8; i++) {
   const square = new BoardSquare (i, false, false, false)
-  boardSquares.push(square)}
+  boardSquares.push(square)
+  if (i % 2 !== 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
+  }
 for (let i = 10; i < 18; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 === 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 for (let i = 20; i < 28; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 !== 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 for (let i = 30; i < 38; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 === 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 for (let i = 40; i < 48; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 !== 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 for (let i = 50; i < 58; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 === 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 for (let i = 60; i < 68; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 !== 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 for (let i = 70; i < 78; i++) {
   const square = new BoardSquare (i, false, false, false)
   boardSquares.push(square)
+  if (i % 2 === 0) {
+    document.getElementById(i).style.backgroundColor = "lightBlue"
+  } else {
+    document.getElementById(i).style.backgroundColor = "darkBlue"
+  }
 }
 
 const whiteRook1 = new Piece("R", "White", 54, false)
@@ -68,7 +109,7 @@ const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 #################### Variables ##########################
 ######################################################### */
 
-let winner, winningMove
+let winner, winningMove, pIdx, prevSelected
 
 /* ######################################################
 ############# Cached Element References #################
@@ -91,7 +132,9 @@ document.getElementById("resetButton").addEventListener('click', updateBoard)
 ######################################################### */
 
 init()
+function checkerBoard() {
 
+}
 function init() {
 
 }
@@ -111,26 +154,17 @@ function updateBoard() {
     })
   })
 }
-let pIdx
-
-updateBoard()
 
 function handleClick(event) {
-
-  // pieces[pIdx].selected = false
-  // pieces.forEach((piece) => {
-  //   piece.selected = false
-  // })
   updateBoard()
-  const sqIdx = event.target.id
-  let sqInt = parseInt(sqIdx)
-  console.log("Square: ", sqInt);
+  const sqInt = parseInt(event.target.id)
   if (pieces.find(piece => piece.location === sqInt)) {
-    console.log("hit")
-    pIdx = pieces.findIndex(piece => piece.location === sqInt)
-    console.log(pieces[pIdx]);
+    // Find index of selected piece
+    const pIdx = pieces.findIndex(piece => piece.location === sqInt)
+    // Set selected property to true
     pieces[pIdx].selected = true
-    console.log(pieces);
+    // Store pointer of selected piece
+    prevSelected = pieces[pIdx]
     if (pieces[pIdx].token === "R") {
       moveNorth()
       moveSouth()
@@ -139,29 +173,12 @@ function handleClick(event) {
     } else if (pieces[pIdx].token === "K") {
       moveKing()
     }
-  } 
-  else if (boardSquares.find(square => square.location === sqInt)) {
-    let checkSquare = boardSquares.find(square => square.location === sqInt)
-    // console.log("Check square: ", checkSquare);
-    if (checkSquare.highlighted === true) {
-      console.log(pieces);
-      let movePiece = pieces.find(piece => piece.selected === true)
-      console.log("movePiece: ", movePiece);
-      movePiece.location = sqInt
-    } else {
-      console.log("not highlighted");
+  } else if (boardSquares.find(square => square.location === sqInt)) {
+    if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
+      prevSelected.location = sqInt
+      updateBoard()
     }
-  } 
-
-  // else {
-  //   console.log("miss");
-  //   console.log(pieces);
-  //   updateBoard()
-  //   pieces.forEach((piece) => {
-  //     piece.selected = false
-  //   })
-  // }
-  // pieces[pIdx].selected = false
+  }
 }
 
 
