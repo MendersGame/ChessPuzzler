@@ -49,20 +49,18 @@ for (let col = 0; col < 80; col += 10) {
     }
   }
 }
-
+// Pieces for play
 const whiteRook1 = new Piece("R", "White", 54, false)
 const whiteRook2 = new Piece("R", "White", 1, false)
 const whiteKing = new Piece("K", "White", 27, false)
 const blackKing = new Piece("K", "Black", 30, false)
-
 pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
-startingPositions = [whiteRook1, whiteRook2, whiteKing, blackKing]
 
 /* ######################################################
 #################### Variables ##########################
 ######################################################### */
 
-let gameState, winner, winningMove, pIdx, prevSelected
+let gameState, winner, winningMove, pIdx
 
 /* ######################################################
 ############# Cached Element References #################
@@ -84,7 +82,7 @@ document.getElementById("clearButton").addEventListener('click', clearBoard)
 /* ######################################################
 #################### Functions ##########################
 ######################################################### */
-
+let testRun = ""
 init()
 
 function init() {
@@ -100,14 +98,25 @@ function render() {
   updatePieces()
 }
 
-
+//! This logic is illogical
 function checkState() {
-  if (pieces.location === startingPositions.location) {
+  pieces.forEach((piece) => {
+    testRun = piece.location
+    return testRun
+  })
+  if (pieces[0].location === 54) {
+    
     winner = false
-    prevSelected = ""
+    // prevSelected = []
     gameState = 0
-  } else if (pieces !== startingPositions) {
+    console.log("Pieces: ", pieces);
+  } else {
     gameState = 1
+    console.log("fail check");
+    console.log("Logic check: ", pieces[0].location, whiteRook1.location);
+
+    return
+
   }
 }
 
@@ -145,6 +154,7 @@ function updatePieces() {
       pieceSquare.style.backgroundSize = "cover"
     }
   })
+  checkState()
 }
 
 function handleClick(event) {
@@ -157,7 +167,7 @@ function handleClick(event) {
       // Set selected property to true
       pieces[pIdx].selected = true
       // Store pointer of selected piece
-      prevSelected = pieces[pIdx]
+      //! prevSelected = pieces[pIdx]
       if (pieces[pIdx].token === "R") {
         moveNorth()
         moveSouth()
@@ -167,13 +177,18 @@ function handleClick(event) {
         moveKing()
       }
     //todo check if piece was selected or if move was made
-    } else if (boardSquares.find(square => square.location === sqInt)) {
+    } else {
       if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
-        prevSelected.location = sqInt
+        pieces.forEach((piece) => {
+          if (piece.selected === true) {
+            piece.location = sqInt
+          }
+        })
         clearBoard()
         updatePieces()
       }
     }
+    console.log("Game State: ", gameState);
     // checkWinner(sqInt)
     //todo drop all data if no move made
   } else if (gameState === 1) {
@@ -182,15 +197,16 @@ function handleClick(event) {
 }
 
 function checkWinner(sqInt) {
-  if (sqInt === 50 && whiteRook1 === prevSelected) {
+  if (whiteRook1.location === 50) {
+    console.log("Rook Location: ", whiteRook1.location);
     winner = true
     gameState = 1
     console.log("Chicken Dinner!");
     updateMessage()
-  } else if (prevSelected !== null || sqInt !== 50) {
+  } else if (gameState === 1) {
     updateMessage("loser")
   }
-  console.log("PrevSelected: ", prevSelected);
+  // console.log("PrevSelected: ", prevSelected);
   updatePieces()
   // placePieces(sqInt)
 }
@@ -326,5 +342,5 @@ function highlightSquares(sq) {
   moveSquare.style.backgroundSize = "cover"
 }
 
-console.log(boardSquares);
-console.log(pieces);
+// console.log(boardSquares);
+// console.log(pieces);
