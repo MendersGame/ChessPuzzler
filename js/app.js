@@ -76,45 +76,39 @@ squareEls.forEach(square => {
 ######################################################### */
 
 document.getElementById("resetButton").addEventListener('click', init)
-document.getElementById("clearButton").addEventListener('click', clearBoard)
 
 /* ######################################################
 #################### Functions ##########################
 ######################################################### */
-let testRun = ""
+
 init()
 
 function init() {
-  // checkState()
   clearBoard()
   render()
 }
 
 function render() {
-  // updateBoard()
-  updateMessage()
   setPieces()
   updatePieces()
+  updateMessage()
 }
 
 //! This logic is illogical
 function checkState() {
-  pieces.forEach((piece) => {
-    testRun = piece.location
-    return testRun
-  })
   if (pieces[0].location === 54) {
-    
     winner = false
     // prevSelected = []
     gameState = 0
     console.log("Game State: ", gameState);
-  } else {
+  } else if (pieces[0].location === 50) {
     gameState = 1
     console.log("Game State: ", gameState);
     console.log("Logic check: ", pieces[0].location, whiteRook1.location);
-    return
-
+    updateMessage()
+  } else {
+    gameState = 2
+    updateMessage()
   }
 }
 
@@ -185,32 +179,21 @@ function handleClick(event) {
         updatePieces()
       }
     }
-    console.log("Game State: ", gameState);
+    console.log("Handle Click Game State: ", gameState);
     //todo drop all data if no move made
   } else if (gameState === 1) {
     console.log("Do nothing");
   }
 }
 
-function checkWinner(sqInt) {
-  if (whiteRook1.location === 50) {
-    console.log("Rook Location: ", whiteRook1.location);
-    winner = true
-    gameState = 1
-    console.log("Chicken Dinner!");
-    updateMessage()
-  } else if (gameState === 1) {
-    updateMessage("loser")
-  }
-  updatePieces()
-}
-
 function updateMessage() {
-  if (winner === true) {
+  if (gameState === 0) {
+    messageEl.textContent = "It is White to play and checkmate black in one."
+  } else if (gameState === 1) {
     messageEl.textContent = "Congratulations!  Black is in Checkmate!"
     gameState = 1
   } else if (gameState === 2) {
-    messageEl.textContent = "Sorry, that move does not put black in checkmate."
+    messageEl.innerHTML = `Sorry, that move does not put black in checkmate. </br> Click Reset button to try again.`
   } else {
     messageEl.textContent = "It is White to play and checkmate black in one."
   }
@@ -246,7 +229,6 @@ function moveSouth() {
         // remove first digit of column
         let hitStr = hit.toString().substring(1)
         let hitInt = parseInt(hitStr)
-        console.log("Hit check: ", hit, hitStr, hitInt);
         while (hitInt < 7) {
           hitInt = hitInt + 1
           hit = hit + 1
@@ -311,6 +293,3 @@ function highlightSquares(sq) {
   moveSquare.style.backgroundImage = "url('../assets/yellowDot.png')"
   moveSquare.style.backgroundSize = "cover"
 }
-
-// console.log(boardSquares);
-// console.log(pieces);
