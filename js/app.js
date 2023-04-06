@@ -81,18 +81,23 @@ squareEls.forEach(square => {
 ################# Event Listeners #######################
 ######################################################### */
 
-document.getElementById("resetButton").addEventListener('click', updateBoard)
+document.getElementById("resetButton").addEventListener('click', init)
 
 /* ######################################################
 #################### Functions ##########################
 ######################################################### */
 
 init()
-updateBoard()
-// placePieces()
 
 function init() {
+  winner = false
+  messageEl.textContent = "It is White to play and checkmate black in one."
+  render()
+}
 
+function render() {
+  updateBoard()
+  updateMessage()
 }
 
 function updateBoard() {
@@ -148,6 +153,12 @@ function handleClick(event) {
       prevSelected.location = sqInt
     }
   }
+  if (sqInt === 50 && whiteRook1 === prevSelected) {
+    winner = true
+    console.log("Chicken Dinner!");
+    updateMessage()
+  }
+  console.log("PrevSelected: ", prevSelected);
   // placePieces(sqInt)
 }
 
@@ -175,6 +186,11 @@ function handleClick(event) {
 //   })
 // }
 
+function updateMessage() {
+  if (winner === true) {
+    messageEl.textContent = "Congratulations!  Black is in Checkmate!"
+  }
+}
 
 //Movement functions are described using directions as found on an 8 point compass
 function moveNorth() {
@@ -271,4 +287,4 @@ function highlightSquares(sq) {
   moveSquare.style.backgroundSize = "cover"
 }
 
-console.log(boardSquares);
+// console.log(boardSquares);
