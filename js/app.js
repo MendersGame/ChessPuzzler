@@ -24,7 +24,9 @@ class BoardSquare {
 ######################################################### */
 
 let boardSquares = []
+let pieces = []
 
+// What creating a chess board should have looked like:
 // for (let col = 0; col < 80; col += 10) {
 //   for (let row = 0; row < 8; row++) {
 //     const square = new BoardSquare (row + col, false, false, false)
@@ -32,6 +34,7 @@ let boardSquares = []
 //   }
 // }
 
+// Integrated shading to create a checkered pattern on game board
 for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
     if (col === 0 || col === 20 || col === 40 || col === 60) {
@@ -59,13 +62,13 @@ const whiteRook2 = new Piece("R", "White", 1, false)
 const whiteKing = new Piece("K", "White", 27, false)
 const blackKing = new Piece("K", "Black", 30, false)
 
-const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 
 /* ######################################################
 #################### Variables ##########################
 ######################################################### */
 
-let winner, winningMove, pIdx, prevSelected
+let gameState, winner, winningMove, pIdx, prevSelected
 
 /* ######################################################
 ############# Cached Element References #################
@@ -91,7 +94,8 @@ document.getElementById("clearButton").addEventListener('click', clearBoard)
 init()
 
 function init() {
-  winner = false
+  winner = 0
+  gameState = 0
   prevSelected = ""
   clearBoard()
   render()
@@ -100,7 +104,7 @@ function init() {
 function render() {
   // updateBoard()
   updateMessage()
-  createPieces()
+  setPieces()
   updatePieces()
 }
 
@@ -111,13 +115,13 @@ function clearBoard() {
   })
 }
 
-function createPieces() {
+function setPieces() {
   const whiteRook1 = new Piece("R", "White", 54, false)
   const whiteRook2 = new Piece("R", "White", 1, false)
   const whiteKing = new Piece("K", "White", 27, false)
   const blackKing = new Piece("K", "Black", 30, false)
-  
-  const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+
+  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
   updatePieces()
 }
 
@@ -141,36 +145,44 @@ function updatePieces() {
   console.log("Update pieces: ", pieces);
 }
 
-
-
 function handleClick(event) {
-  // updateBoard()
   const sqInt = parseInt(event.target.id)
-  if (pieces.find(piece => piece.location === sqInt)) {
-    // Find index of selected piece
-    const pIdx = pieces.findIndex(piece => piece.location === sqInt)
-    // Set selected property to true
-    pieces[pIdx].selected = true
-    // Store pointer of selected piece
-    prevSelected = pieces[pIdx]
-    if (pieces[pIdx].token === "R") {
-      moveNorth()
-      moveSouth()
-      moveEast()
-      moveWest()
-    } else if (pieces[pIdx].token === "K") {
-      moveKing()
+  if (gameState === 0) {
+    if (pieces.find(piece => piece.location === sqInt)) {
+      // Find index of selected piece
+      const pIdx = pieces.findIndex(piece => piece.location === sqInt)
+      // Set selected property to true
+      pieces[pIdx].selected = true
+      // Store pointer of selected piece
+      prevSelected = pieces[pIdx]
+      if (pieces[pIdx].token === "R") {
+        moveNorth()
+        moveSouth()
+        moveEast()
+        moveWest()
+      } else if (pieces[pIdx].token === "K") {
+        moveKing()
+      }
+    } else if (boardSquares.find(square => square.location === sqInt)) {
+      if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
+        prevSelected.location = sqInt
+        clearBoard()
+        updatePieces()
+      }
     }
-  } else if (boardSquares.find(square => square.location === sqInt)) {
-    if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
-      prevSelected.location = sqInt
-      clearBoard()
-      updatePieces()
-    }
+    checkWinner(sqInt)
+  } else if (gameState === 1) {
+    console.log("Do nothing");
   }
+}
+
+function checkWinner(sqInt) {
   if (sqInt === 50 && whiteRook1 === prevSelected) {
-    winner = true
+    winner = 1
     console.log("Chicken Dinner!");
+    updateMessage()
+  } else if (prevSelected !== null || sqInt !== 50) {
+    winner = 2
     updateMessage()
   }
   console.log("PrevSelected: ", prevSelected);
@@ -184,7 +196,7 @@ function handleClick(event) {
 //     if (sq.location === piece.location) {
 //       let printPiece = sq.location.toString()
 //       piece.selected = true
-      // // document.getElementById(printPiece).textContent = piece.token
+// // document.getElementById(printPiece).textContent = piece.token
 //       if (piece.token === "R" && piece.color === "White") {
 //         const pieceSquare = document.getElementById(printPiece)
 //         pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
@@ -203,8 +215,11 @@ function handleClick(event) {
 // }
 
 function updateMessage() {
-  if (winner === true) {
+  if (winner === 1) {
     messageEl.textContent = "Congratulations!  Black is in Checkmate!"
+    gameState = 1
+  } else if (winner === 2) {
+    messageEl.textContent = "Sorry, that move does not put black in checkmate."
   } else {
     messageEl.textContent = "It is White to play and checkmate black in one."
   }
