@@ -25,6 +25,7 @@ class BoardSquare {
 
 let boardSquares = []
 let pieces = []
+let startingPositions = []
 
 // Integrated shading to create a checkered pattern on game board
 for (let col = 0; col < 80; col += 10) {
@@ -55,6 +56,7 @@ const whiteKing = new Piece("K", "White", 27, false)
 const blackKing = new Piece("K", "Black", 30, false)
 
 pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+startingPositions = [whiteRook1, whiteRook2, whiteKing, blackKing]
 
 /* ######################################################
 #################### Variables ##########################
@@ -86,9 +88,7 @@ document.getElementById("clearButton").addEventListener('click', clearBoard)
 init()
 
 function init() {
-  winner = 0
-  gameState = 0
-  prevSelected = ""
+  checkState()
   clearBoard()
   render()
 }
@@ -98,6 +98,17 @@ function render() {
   updateMessage()
   setPieces()
   updatePieces()
+}
+
+
+function checkState() {
+  if (pieces.location === startingPositions.location) {
+    winner = false
+    prevSelected = ""
+    gameState = 0
+  } else if (pieces !== startingPositions) {
+    gameState = 1
+  }
 }
 
 function clearBoard() {
@@ -114,7 +125,7 @@ function setPieces() {
   const blackKing = new Piece("K", "Black", 30, false)
 
   pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
-  updatePieces()
+  // updatePieces()
 }
 
 function updatePieces() {
@@ -134,11 +145,11 @@ function updatePieces() {
       pieceSquare.style.backgroundSize = "cover"
     }
   })
-  console.log("Update pieces: ", pieces);
 }
 
 function handleClick(event) {
   const sqInt = parseInt(event.target.id)
+  checkState()
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
       // Find index of selected piece
@@ -163,7 +174,7 @@ function handleClick(event) {
         updatePieces()
       }
     }
-    checkWinner(sqInt)
+    // checkWinner(sqInt)
     //todo drop all data if no move made
   } else if (gameState === 1) {
     console.log("Do nothing");
@@ -172,13 +183,12 @@ function handleClick(event) {
 
 function checkWinner(sqInt) {
   if (sqInt === 50 && whiteRook1 === prevSelected) {
-    winner = 1
+    winner = true
     gameState = 1
     console.log("Chicken Dinner!");
     updateMessage()
   } else if (prevSelected !== null || sqInt !== 50) {
-    winner = 2
-    updateMessage()
+    updateMessage("loser")
   }
   console.log("PrevSelected: ", prevSelected);
   updatePieces()
@@ -210,10 +220,10 @@ function checkWinner(sqInt) {
 // }
 
 function updateMessage() {
-  if (winner === 1) {
+  if (winner === true) {
     messageEl.textContent = "Congratulations!  Black is in Checkmate!"
     gameState = 1
-  } else if (winner === 2) {
+  } else if (gameState === 2) {
     messageEl.textContent = "Sorry, that move does not put black in checkmate."
   } else {
     messageEl.textContent = "It is White to play and checkmate black in one."
