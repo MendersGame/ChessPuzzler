@@ -146,6 +146,7 @@ function updatePieces() {
 function handleClick(event) {
   const sqInt = parseInt(event.target.id)
   checkState()
+  //todo 
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
       // Find index of selected piece
@@ -172,6 +173,11 @@ function handleClick(event) {
         clearBoard()
         updatePieces()
       }
+      pieces.forEach((piece) => {
+        piece.selected = false
+      })
+      clearBoard()
+      updatePieces()
     }
     //todo drop all data if no move made
   } else if (gameState === 1) {
@@ -215,7 +221,6 @@ function moveSouth() {
       if (hit < 10) {
         while (hit < 7) {
           hit = hit + 1
-          console.log("South : ", hit);
           highlightSquares(hit)
         }
       } else {
