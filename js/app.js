@@ -91,41 +91,75 @@ init()
 
 function init() {
   winner = false
-  messageEl.textContent = "It is White to play and checkmate black in one."
+  prevSelected = ""
+  clearBoard()
   render()
 }
 
 function render() {
   updateBoard()
   updateMessage()
+  createPieces()
+}
+
+function clearBoard() {
+  boardSquares.forEach((square) => {
+    document.getElementById(square.location).style.backgroundImage = ""
+    square.highlighted = false
+  })
+}
+
+function createPieces() {
+  const whiteRook1 = new Piece("R", "White", 54, false)
+  const whiteRook2 = new Piece("R", "White", 1, false)
+  const whiteKing = new Piece("K", "White", 27, false)
+  const blackKing = new Piece("K", "Black", 30, false)
+  
+  const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+  pieces.forEach((piece) => {
+    let sq = piece.location
+    if (piece.token === "R" && piece.color === "White") {
+      const pieceSquare = document.getElementById(sq)
+      pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
+      pieceSquare.style.backgroundSize = "cover"
+    } else if (piece.token === "K" && piece.color === "White") {
+      const pieceSquare = document.getElementById(sq)
+      pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
+      pieceSquare.style.backgroundSize = "cover"
+    } else if (piece.token === "K" && piece.color === "Black") {
+      const pieceSquare = document.getElementById(sq)
+      pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
+      pieceSquare.style.backgroundSize = "cover"
+    }
+  })
 }
 
 function updateBoard() {
   boardSquares.forEach((square) => {
     //clears board of all elements
-    document.getElementById(square.location).style.backgroundImage = ""
+    // document.getElementById(square.location).style.backgroundImage = ""
     //places pieces:
-    pieces.forEach((piece) => {
-      piece.selected = false
-      if (square.location === piece.location) {
-        let printPiece = square.location.toString()
-        piece.selected = true
-        // document.getElementById(printPiece).textContent = piece.token
-        if (piece.token === "R" && piece.color === "White") {
-          const pieceSquare = document.getElementById(printPiece)
-          pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
-          pieceSquare.style.backgroundSize = "cover"
-        } else if (piece.token === "K" && piece.color === "White") {
-          const pieceSquare = document.getElementById(printPiece)
-          pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
-          pieceSquare.style.backgroundSize = "cover"
-        } else if (piece.token === "K" && piece.color === "Black") {
-          const pieceSquare = document.getElementById(printPiece)
-          pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
-          pieceSquare.style.backgroundSize = "cover"
-        }
-      }
-    })
+    // pieces.forEach((piece) => {
+    //   piece.selected = false
+    //   if (square.location === piece.location) {
+    //     let printPiece = square.location.toString()
+    //     piece.selected = true
+    //     // document.getElementById(printPiece).textContent = piece.token
+    //     if (piece.token === "R" && piece.color === "White") {
+    //       const pieceSquare = document.getElementById(printPiece)
+    //       pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
+    //       pieceSquare.style.backgroundSize = "cover"
+    //     } else if (piece.token === "K" && piece.color === "White") {
+    //       const pieceSquare = document.getElementById(printPiece)
+    //       pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
+    //       pieceSquare.style.backgroundSize = "cover"
+    //     } else if (piece.token === "K" && piece.color === "Black") {
+    //       const pieceSquare = document.getElementById(printPiece)
+    //       pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
+    //       pieceSquare.style.backgroundSize = "cover"
+    //     }
+    //   }
+    // })
   })
 }
 
@@ -189,6 +223,8 @@ function handleClick(event) {
 function updateMessage() {
   if (winner === true) {
     messageEl.textContent = "Congratulations!  Black is in Checkmate!"
+  } else {
+    messageEl.textContent = "It is White to play and checkmate black in one."
   }
 }
 
@@ -276,6 +312,7 @@ function moveSW() {
 }
 
 function moveKing() {
+  messageEl.textContent = "Don't touch the King!"
   console.log("Don't move the King");
 }
 
@@ -287,4 +324,5 @@ function highlightSquares(sq) {
   moveSquare.style.backgroundSize = "cover"
 }
 
-// console.log(boardSquares);
+console.log(boardSquares);
+console.log(pieces);
