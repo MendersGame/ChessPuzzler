@@ -26,14 +26,6 @@ class BoardSquare {
 let boardSquares = []
 let pieces = []
 
-// What creating a chess board should have looked like:
-// for (let col = 0; col < 80; col += 10) {
-//   for (let row = 0; row < 8; row++) {
-//     const square = new BoardSquare (row + col, false, false, false)
-//     boardSquares.push(square)
-//   }
-// }
-
 // Integrated shading to create a checkered pattern on game board
 for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
@@ -163,6 +155,7 @@ function handleClick(event) {
       } else if (pieces[pIdx].token === "K") {
         moveKing()
       }
+    //todo check if piece was selected or if move was made
     } else if (boardSquares.find(square => square.location === sqInt)) {
       if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
         prevSelected.location = sqInt
@@ -171,6 +164,7 @@ function handleClick(event) {
       }
     }
     checkWinner(sqInt)
+    //todo drop all data if no move made
   } else if (gameState === 1) {
     console.log("Do nothing");
   }
@@ -179,6 +173,7 @@ function handleClick(event) {
 function checkWinner(sqInt) {
   if (sqInt === 50 && whiteRook1 === prevSelected) {
     winner = 1
+    gameState = 1
     console.log("Chicken Dinner!");
     updateMessage()
   } else if (prevSelected !== null || sqInt !== 50) {
