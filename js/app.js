@@ -82,6 +82,7 @@ squareEls.forEach(square => {
 ######################################################### */
 
 document.getElementById("resetButton").addEventListener('click', init)
+document.getElementById("clearButton").addEventListener('click', clearBoard)
 
 /* ######################################################
 #################### Functions ##########################
@@ -97,9 +98,10 @@ function init() {
 }
 
 function render() {
-  updateBoard()
+  // updateBoard()
   updateMessage()
   createPieces()
+  updatePieces()
 }
 
 function clearBoard() {
@@ -116,6 +118,10 @@ function createPieces() {
   const blackKing = new Piece("K", "Black", 30, false)
   
   const pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+  updatePieces()
+}
+
+function updatePieces() {
   pieces.forEach((piece) => {
     let sq = piece.location
     if (piece.token === "R" && piece.color === "White") {
@@ -132,40 +138,13 @@ function createPieces() {
       pieceSquare.style.backgroundSize = "cover"
     }
   })
+  console.log("Update pieces: ", pieces);
 }
 
-function updateBoard() {
-  boardSquares.forEach((square) => {
-    //clears board of all elements
-    // document.getElementById(square.location).style.backgroundImage = ""
-    //places pieces:
-    // pieces.forEach((piece) => {
-    //   piece.selected = false
-    //   if (square.location === piece.location) {
-    //     let printPiece = square.location.toString()
-    //     piece.selected = true
-    //     // document.getElementById(printPiece).textContent = piece.token
-    //     if (piece.token === "R" && piece.color === "White") {
-    //       const pieceSquare = document.getElementById(printPiece)
-    //       pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
-    //       pieceSquare.style.backgroundSize = "cover"
-    //     } else if (piece.token === "K" && piece.color === "White") {
-    //       const pieceSquare = document.getElementById(printPiece)
-    //       pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
-    //       pieceSquare.style.backgroundSize = "cover"
-    //     } else if (piece.token === "K" && piece.color === "Black") {
-    //       const pieceSquare = document.getElementById(printPiece)
-    //       pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
-    //       pieceSquare.style.backgroundSize = "cover"
-    //     }
-    //   }
-    // })
-  })
-}
 
 
 function handleClick(event) {
-  updateBoard()
+  // updateBoard()
   const sqInt = parseInt(event.target.id)
   if (pieces.find(piece => piece.location === sqInt)) {
     // Find index of selected piece
@@ -185,6 +164,8 @@ function handleClick(event) {
   } else if (boardSquares.find(square => square.location === sqInt)) {
     if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
       prevSelected.location = sqInt
+      clearBoard()
+      updatePieces()
     }
   }
   if (sqInt === 50 && whiteRook1 === prevSelected) {
@@ -193,6 +174,7 @@ function handleClick(event) {
     updateMessage()
   }
   console.log("PrevSelected: ", prevSelected);
+  updatePieces()
   // placePieces(sqInt)
 }
 
