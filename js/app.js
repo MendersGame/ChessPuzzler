@@ -25,7 +25,6 @@ class BoardSquare {
 
 let boardSquares = []
 let pieces = []
-let startingPositions = []
 
 // Integrated shading to create a checkered pattern on game board
 for (let col = 0; col < 80; col += 10) {
@@ -86,7 +85,7 @@ let testRun = ""
 init()
 
 function init() {
-  checkState()
+  // checkState()
   clearBoard()
   render()
 }
@@ -109,12 +108,11 @@ function checkState() {
     winner = false
     // prevSelected = []
     gameState = 0
-    console.log("Pieces: ", pieces);
+    console.log("Game State: ", gameState);
   } else {
     gameState = 1
-    console.log("fail check");
+    console.log("Game State: ", gameState);
     console.log("Logic check: ", pieces[0].location, whiteRook1.location);
-
     return
 
   }
@@ -167,7 +165,6 @@ function handleClick(event) {
       // Set selected property to true
       pieces[pIdx].selected = true
       // Store pointer of selected piece
-      //! prevSelected = pieces[pIdx]
       if (pieces[pIdx].token === "R") {
         moveNorth()
         moveSouth()
@@ -189,7 +186,6 @@ function handleClick(event) {
       }
     }
     console.log("Game State: ", gameState);
-    // checkWinner(sqInt)
     //todo drop all data if no move made
   } else if (gameState === 1) {
     console.log("Do nothing");
@@ -206,34 +202,8 @@ function checkWinner(sqInt) {
   } else if (gameState === 1) {
     updateMessage("loser")
   }
-  // console.log("PrevSelected: ", prevSelected);
   updatePieces()
-  // placePieces(sqInt)
 }
-
-// function placePieces (sq) {
-//   pieces.forEach((piece) => {
-//     piece.selected = false
-//     if (sq.location === piece.location) {
-//       let printPiece = sq.location.toString()
-//       piece.selected = true
-// // document.getElementById(printPiece).textContent = piece.token
-//       if (piece.token === "R" && piece.color === "White") {
-//         const pieceSquare = document.getElementById(printPiece)
-//         pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
-//         pieceSquare.style.backgroundSize = "cover"
-//       } else if (piece.token === "K" && piece.color === "White") {
-//         const pieceSquare = document.getElementById(printPiece)
-//         pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
-//         pieceSquare.style.backgroundSize = "cover"
-//       } else if (piece.token === "K" && piece.color === "Black") {
-//         const pieceSquare = document.getElementById(printPiece)
-//         pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
-//         pieceSquare.style.backgroundSize = "cover"
-//       }
-//     }
-//   })
-// }
 
 function updateMessage() {
   if (winner === true) {
