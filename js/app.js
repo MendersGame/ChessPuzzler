@@ -94,17 +94,12 @@ function render() {
   updateMessage()
 }
 
-//! This logic is illogical
 function checkState() {
   if (pieces[0].location === 54) {
     winner = false
-    // prevSelected = []
     gameState = 0
-    console.log("Game State: ", gameState);
   } else if (pieces[0].location === 50) {
     gameState = 1
-    console.log("Game State: ", gameState);
-    console.log("Logic check: ", pieces[0].location, whiteRook1.location);
     updateMessage()
   } else {
     gameState = 2
@@ -126,7 +121,6 @@ function setPieces() {
   const blackKing = new Piece("K", "Black", 30, false)
 
   pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
-  // updatePieces()
 }
 
 function updatePieces() {
@@ -179,10 +173,9 @@ function handleClick(event) {
         updatePieces()
       }
     }
-    console.log("Handle Click Game State: ", gameState);
     //todo drop all data if no move made
   } else if (gameState === 1) {
-    console.log("Do nothing");
+
   }
 }
 
