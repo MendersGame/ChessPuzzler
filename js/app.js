@@ -142,12 +142,18 @@ function handleClick(event) {
   checkState()
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
+      // Remove selected property from previously selected pieces
+      pieces.forEach((piece) => {
+        piece.selected = false
+      })
       // Find index of selected piece
-      const pIdx = pieces.findIndex(piece => piece.location === sqInt)
+      pIdx = pieces.findIndex(piece => piece.location === sqInt)
       // Set selected property to true
       pieces[pIdx].selected = true
       // Store pointer of selected piece
       if (pieces[pIdx].token === "R") {
+        clearBoard()
+        updatePieces()
         moveNorth()
         moveSouth()
         moveEast()
