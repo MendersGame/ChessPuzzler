@@ -28,3 +28,13 @@ h1, h2 {
   color: whitesmoke;
   text-align: center;
 }
+
+button {
+  background-color: whitesmoke;
+  border-radius: 8px;
+  padding: 10px 16px;
+  border: 0;
+  color: black;
+  font-size: larger;
+  font-style: bold;
+}

@@ -48,12 +48,6 @@ for (let col = 0; col < 80; col += 10) {
     }
   }
 }
-// Pieces for play
-const whiteRook1 = new Piece("R", "White", 54, false)
-const whiteRook2 = new Piece("R", "White", 1, false)
-const whiteKing = new Piece("K", "White", 27, false)
-const blackKing = new Piece("K", "Black", 30, false)
-pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 
 /* ######################################################
 #################### Variables ##########################
@@ -117,7 +111,7 @@ function clearBoard() {
 function setPieces() {
   const whiteRook1 = new Piece("R", "White", 54, false)
   const whiteRook2 = new Piece("R", "White", 1, false)
-  const whiteKing = new Piece("K", "White", 27, false)
+  const whiteKing = new Piece("K", "White", 26, false)
   const blackKing = new Piece("K", "Black", 30, false)
 
   pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
@@ -146,7 +140,6 @@ function updatePieces() {
 function handleClick(event) {
   const sqInt = parseInt(event.target.id)
   checkState()
-  //todo 
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
       // Find index of selected piece
@@ -162,7 +155,7 @@ function handleClick(event) {
       } else if (pieces[pIdx].token === "K") {
         moveKing()
       }
-    //todo check if piece was selected or if move was made
+    // check if piece was selected or if move was made
     } else {
       if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
         pieces.forEach((piece) => {
@@ -179,7 +172,7 @@ function handleClick(event) {
       clearBoard()
       updatePieces()
     }
-    //todo drop all data if no move made
+    //? drop all data if no move made
   } else if (gameState === 1) {
 
   }
@@ -263,6 +256,7 @@ function moveEast() {
   })
 }
 
+//todo Add diagonal movement rules and incorporate bishops and a Queen for future puzzles
 function moveNW() {
   // location - 11
 }
@@ -277,6 +271,10 @@ function moveSE() {
 
 function moveSW() {
   // location - 9
+}
+
+function moveKnight() {
+  //+/- 8, 19, 21, 12
 }
 
 function moveKing() {
