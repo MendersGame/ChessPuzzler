@@ -146,15 +146,15 @@ function setPiecesTwo() {
 function setPiecesThree() {
   activePuzzle = 3
   startLocations = []
-  // const whiteRook1 = new Piece("R", "White", 16, false)
-  // const whiteRook2 = new Piece("R", "White", 41, false)
-  // const whiteKing = new Piece("K", "White", 62, false)
-  // const blackKing = new Piece("K", "Black", 0, false)
-  const whiteBishop1 = new Piece("B", "White", 62, false)
-  const whiteQueen = new Piece("Q", "White", 23, false)
-  // const whiteBishop2 = new Piece("B", "White", 65, false)
-  // pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteBishop2]
-  pieces = [whiteBishop1, whiteQueen]
+  const whiteRook1 = new Piece("R", "White", 13, false)
+  const whiteRook2 = new Piece("R", "White", 33, false)
+  const whiteKing = new Piece("K", "White", 26, false)
+  const blackKing = new Piece("K", "Black", 20, false)
+  const whiteBishop1 = new Piece("B", "White", 75, false)
+  const whiteQueen = new Piece("Q", "White", 61, false)
+  const whiteBishop2 = new Piece("B", "White", 47, false)
+  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteQueen, whiteBishop2]
+  // pieces = [whiteBishop1, whiteQueen]
   pieces.forEach((piece) => {
     startLocations.push(piece.location)
   })
@@ -181,6 +181,7 @@ function clearBoard() {
   boardSquares.forEach((square) => {
     document.getElementById(square.location).style.backgroundImage = ""
     square.highlighted = false
+    square.occupied = false
   })
 }
 
@@ -207,34 +208,35 @@ function updatePieces() {
       const pieceSquare = document.getElementById(sq)
       pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
       pieceSquare.style.backgroundSize = "cover"
-    } 
+    }
+    boardSquares.forEach((square) => {
+      if (square.location === sq) {
+        square.occupied = true
+        console.log(square.location);
+      }
+    })
   })
   checkState()
 }
 
 function handleClick(event) {
-  
   const sqInt = parseInt(event.target.id)
   console.log(sqInt);
   checkState()
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
-      // Remove selected property from previously selected pieces
       pieces.forEach((piece) => {
         piece.selected = false
       })
-      // Find index of selected piece
       pIdx = pieces.findIndex(piece => piece.location === sqInt)
-      // Set selected property to true
       pieces[pIdx].selected = true
-      // Store pointer of selected piece
       if (pieces[pIdx].token === "R") {
         clearBoard()
-        updatePieces()
         moveNorth()
         moveSouth()
         moveEast()
         moveWest()
+        updatePieces()
       } else if (pieces[pIdx].token === "K") {
         clearBoard()
         updatePieces()
@@ -365,28 +367,28 @@ function moveNW() {
   pieces.forEach((piece) => {
     if (piece.selected === true) {
       let hit = piece.location
-        // remove first digit of column
-        let hitTen = hit.toString().charAt(0)
-        let hitOne = hit.toString().charAt(1)
-        let hitTenInt = parseInt(hitTen)
-        let hitOneInt = parseInt(hitOne)
-        if (hitTenInt > hitOneInt) {
-          for (hitOneInt; hitOneInt > 0; hitOneInt--) {
-            hit = hit - 11
-            highlightSquares(hit)
-          }
-        } else if (hitTenInt < hitOneInt) {
-          for (hitTenInt; hitTenInt > 0; hitTenInt--) {
-            hit = hit - 11
-            highlightSquares(hit)
-          }
-        } else if (hitTenInt === hitOneInt) {
-          for (hitOne; hitOne > 0; hitOne--) {
-            hit = hit - 11
-            highlightSquares(hit)
-          }
+      // remove first digit of column
+      let hitTen = hit.toString().charAt(0)
+      let hitOne = hit.toString().charAt(1)
+      let hitTenInt = parseInt(hitTen)
+      let hitOneInt = parseInt(hitOne)
+      if (hitTenInt > hitOneInt) {
+        for (hitOneInt; hitOneInt > 0; hitOneInt--) {
+          hit = hit - 11
+          highlightSquares(hit)
         }
-        
+      } else if (hitTenInt < hitOneInt) {
+        for (hitTenInt; hitTenInt > 0; hitTenInt--) {
+          hit = hit - 11
+          highlightSquares(hit)
+        }
+      } else if (hitTenInt === hitOneInt) {
+        for (hitOne; hitOne > 0; hitOne--) {
+          hit = hit - 11
+          highlightSquares(hit)
+        }
+      }
+
     }
   })
 }
@@ -426,28 +428,28 @@ function moveSE() {
   pieces.forEach((piece) => {
     if (piece.selected === true) {
       let hit = piece.location
-        // remove first digit of column
-        let hitTen = hit.toString().charAt(0)
-        let hitOne = hit.toString().charAt(1)
-        let hitTenInt = parseInt(hitTen)
-        let hitOneInt = parseInt(hitOne)
-        if (hitTenInt > hitOneInt) {
-          for (hitTenInt; hitTenInt < 7; hitTenInt++) {
-            hit = hit + 11
-            highlightSquares(hit)
-          }
-        } else if (hitTenInt < hitOneInt) {
-          for (hitOneInt; hitOneInt < 7; hitOneInt++) {
-            hit = hit + 11
-            highlightSquares(hit)
-          }
-        } else if (hitTenInt === hitOneInt) {
-          for (hitOne; hitOne < 7; hitOne++) {
-            hit = hit + 11
-            highlightSquares(hit)
-          }
+      // remove first digit of column
+      let hitTen = hit.toString().charAt(0)
+      let hitOne = hit.toString().charAt(1)
+      let hitTenInt = parseInt(hitTen)
+      let hitOneInt = parseInt(hitOne)
+      if (hitTenInt > hitOneInt) {
+        for (hitTenInt; hitTenInt < 7; hitTenInt++) {
+          hit = hit + 11
+          highlightSquares(hit)
         }
-        
+      } else if (hitTenInt < hitOneInt) {
+        for (hitOneInt; hitOneInt < 7; hitOneInt++) {
+          hit = hit + 11
+          highlightSquares(hit)
+        }
+      } else if (hitTenInt === hitOneInt) {
+        for (hitOne; hitOne < 7; hitOne++) {
+          hit = hit + 11
+          highlightSquares(hit)
+        }
+      }
+
     }
   })
 }

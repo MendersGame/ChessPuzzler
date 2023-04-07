@@ -1,5 +1,7 @@
 # ChessPuzzler
 Play chess puzzles [here](https://js-chess-puzzles.netlify.app/)
+
+
 ![Puzzle Screenshot](./assets/ChessPuzzle.png)
 
 
@@ -17,5 +19,6 @@ Technologies used:
 Image assets (chess pieces) aquired from [here](https://commons.wikimedia.org/wiki/Category:PNG_chess_pieces/Standard_transparent)
 
 Icebox (future plans):
-1. Introduce other chess pieces.
+1. Introduce other chess pieces (knights and pawns).
 2. Create more puzzles.
+3. Implement stalemate logic.
