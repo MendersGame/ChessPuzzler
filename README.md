@@ -22,5 +22,6 @@ Image assets (chess pieces) aquired from [here](https://commons.wikimedia.org/wi
 Icebox (future plans):
 1. Introduce other chess pieces (knights and pawns).
 2. Create more puzzles.
-3. Implement stalemate logic.
-4. Implement puzzles with solutions that require two moves.
+3. Add textures to the board, and background.
+4. Implement stalemate logic.
+5. Implement puzzles with solutions that require two moves.
