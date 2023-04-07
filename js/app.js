@@ -54,7 +54,7 @@ for (let col = 0; col < 80; col += 10) {
 #################### Variables ##########################
 ######################################################### */
 
-let gameState, winner, pIdx
+let gameState, winner, pIdx, activePuzzle
 
 /* ######################################################
 ############# Cached Element References #################
@@ -71,6 +71,9 @@ squareEls.forEach(square => {
 ######################################################### */
 
 document.getElementById("resetButton").addEventListener('click', init)
+document.getElementById("oneButton").addEventListener('click', puzzleOne)
+document.getElementById("twoButton").addEventListener('click', puzzleTwo)
+document.getElementById("threeButton").addEventListener('click', puzzleThree)
 
 /* ######################################################
 #################### Functions ##########################
@@ -78,26 +81,79 @@ document.getElementById("resetButton").addEventListener('click', init)
 
 init()
 
+function puzzleOne() {
+  activePuzzle = 1
+  init()
+}
+function puzzleTwo() {
+  activePuzzle = 2
+  init()
+}
+function puzzleThree() {
+  activePuzzle = 3
+  init()
+}
+
 function init() {
   clearBoard()
   render()
 }
 
 function render() {
-  setPiecesOne()
-  updatePieces()
-  updateMessage()
+  if (activePuzzle === 2) {
+    setPiecesTwo()
+    updatePieces()
+    updateMessage()
+  } else if (activePuzzle === 3) {
+    setPiecesThree()
+    updatePieces()
+    updateMessage()
+  } else {
+    setPiecesOne()
+    updatePieces()
+    updateMessage()
+  }
 }
 
 function setPiecesOne() {
+  activePuzzle = 1
   startLocations = []
-
   const whiteRook1 = new Piece("R", "White", 54, false)
   const whiteRook2 = new Piece("R", "White", 1, false)
   const whiteKing = new Piece("K", "White", 26, false)
   const blackKing = new Piece("K", "Black", 30, false)
-
   pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+  pieces.forEach((piece) => {
+    startLocations.push(piece.location)
+  })
+}
+
+function setPiecesTwo() {
+  activePuzzle = 2
+  startLocations = []
+  const whiteRook1 = new Piece("R", "White", 16, false)
+  const whiteRook2 = new Piece("R", "White", 41, false)
+  const whiteKing = new Piece("K", "White", 62, false)
+  const blackKing = new Piece("K", "Black", 0, false)
+  const whiteBishop1 = new Piece("B", "White", 57, false)
+  const whiteBishop2 = new Piece("B", "White", 65, false)
+  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteBishop2]
+  pieces.forEach((piece) => {
+    startLocations.push(piece.location)
+  })
+}
+
+function setPiecesThree() {
+  activePuzzle = 3
+  startLocations = []
+  // const whiteRook1 = new Piece("R", "White", 16, false)
+  // const whiteRook2 = new Piece("R", "White", 41, false)
+  // const whiteKing = new Piece("K", "White", 62, false)
+  // const blackKing = new Piece("K", "Black", 0, false)
+  const whiteBishop1 = new Piece("B", "White", 61, false)
+  // const whiteBishop2 = new Piece("B", "White", 65, false)
+  // pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteBishop2]
+  pieces = [whiteBishop1]
   pieces.forEach((piece) => {
     startLocations.push(piece.location)
   })
@@ -111,7 +167,7 @@ function checkState() {
   if (startLocations.toString() === currentLoc.toString()) {
     winner = false
     gameState = 0
-  } else if (pieces[0].location === 50) {
+  } else if (pieces[0].location === 50 || pieces[0].location === 10) {
     gameState = 1
     updateMessage()
   } else if (startLocations.toString() !== currentLoc.toString()) {
@@ -134,6 +190,14 @@ function updatePieces() {
       const pieceSquare = document.getElementById(sq)
       pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteRook.png')"
       pieceSquare.style.backgroundSize = "cover"
+    } else if (piece.token === "B" && piece.color === "White") {
+      const pieceSquare = document.getElementById(sq)
+      pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteBishop.png')"
+      pieceSquare.style.backgroundSize = "cover"
+    } else if (piece.token === "Q" && piece.color === "White") {
+      const pieceSquare = document.getElementById(sq)
+      pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteQueen.png')"
+      pieceSquare.style.backgroundSize = "cover"
     } else if (piece.token === "K" && piece.color === "White") {
       const pieceSquare = document.getElementById(sq)
       pieceSquare.style.backgroundImage = "url('../assets/Pieces/whiteKing.png')"
@@ -148,7 +212,9 @@ function updatePieces() {
 }
 
 function handleClick(event) {
+  
   const sqInt = parseInt(event.target.id)
+  console.log(sqInt);
   checkState()
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
@@ -169,9 +235,18 @@ function handleClick(event) {
         moveEast()
         moveWest()
       } else if (pieces[pIdx].token === "K") {
+        clearBoard()
+        updatePieces()
         moveKing()
+      } else if (pieces[pIdx].token === "B") {
+        clearBoard()
+        updatePieces()
+        moveNE()
+        moveNW()
+        moveSE()
+        moveSW()
       }
-    // check if piece was selected or if move was made
+      // check if piece was selected or if move was made
     } else {
       if (boardSquares.find(sq => sq.location === sqInt).highlighted) {
         pieces.forEach((piece) => {
@@ -275,6 +350,34 @@ function moveEast() {
 //todo Add diagonal movement rules and incorporate bishops and a Queen for future puzzles
 function moveNW() {
   // location - 11
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let hit = piece.location
+        // remove first digit of column
+        let hitTen = hit.toString().charAt(0)
+        let hitOne = hit.toString().charAt(1)
+        let hitTenInt = parseInt(hitTen)
+        let hitOneInt = parseInt(hitOne)
+        if (hitTenInt > hitOneInt) {
+          for (hitOneInt; hitOneInt > 0; hitOneInt--) {
+            hit = hit - 11
+            highlightSquares(hit)
+          }
+        } else if (hitTenInt < hitOneInt) {
+          for (hitTenInt; hitTenInt > 0; hitTenInt--) {
+            hit = hit - 11
+            highlightSquares(hit)
+          }
+        } else if (hitTenInt === hitOneInt) {
+          for (hitOne; hitOne > 0; hitOne--) {
+            console.log("hit Check: ", hit);
+            hit = hit - 11
+            highlightSquares(hit)
+          }
+        }
+        
+    }
+  })
 }
 
 function moveNE() {
@@ -283,6 +386,34 @@ function moveNE() {
 
 function moveSE() {
   // location + 11
+  pieces.forEach((piece) => {
+    if (piece.selected === true) {
+      let hit = piece.location
+        // remove first digit of column
+        let hitTen = hit.toString().charAt(0)
+        let hitOne = hit.toString().charAt(1)
+        let hitTenInt = parseInt(hitTen)
+        let hitOneInt = parseInt(hitOne)
+        console.log("Ten Int: ", hitTenInt);
+        if (hitTenInt > hitOneInt) {
+          for (hitOneInt; hitOneInt < 7; hitOneInt++) {
+            hit = hit + 11
+            highlightSquares(hit)
+          }
+        } else if (hitTenInt < hitOneInt) {
+          for (hitOneInt; hitOneInt < 7; hitOneInt++) {
+            hit = hit + 11
+            highlightSquares(hit)
+          }
+        } else if (hitTenInt === hitOneInt) {
+          for (hitOne; hitOne < 7; hitOne++) {
+            hit = hit + 11
+            highlightSquares(hit)
+          }
+        }
+        
+    }
+  })
 }
 
 function moveSW() {
