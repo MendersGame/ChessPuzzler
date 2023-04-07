@@ -284,8 +284,14 @@ function moveKnight() {
 }
 
 function moveKing() {
-  messageEl.textContent = "Don't touch the King!"
-  console.log("Don't move the King");
+  highlightSquares(pieces[2].location + 1)
+  highlightSquares(pieces[2].location - 1)
+  highlightSquares(pieces[2].location + 9)
+  highlightSquares(pieces[2].location - 9)
+  highlightSquares(pieces[2].location + 10)
+  highlightSquares(pieces[2].location - 10)
+  highlightSquares(pieces[2].location + 11)
+  highlightSquares(pieces[2].location - 11)
 }
 
 function highlightSquares(sq) {
