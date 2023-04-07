@@ -25,6 +25,7 @@ class BoardSquare {
 
 let boardSquares = []
 let pieces = []
+let startLocations = []
 
 // Integrated shading to create a checkered pattern on game board
 for (let col = 0; col < 80; col += 10) {
@@ -53,7 +54,7 @@ for (let col = 0; col < 80; col += 10) {
 #################### Variables ##########################
 ######################################################### */
 
-let gameState, winner, winningMove, pIdx
+let gameState, winner, pIdx
 
 /* ######################################################
 ############# Cached Element References #################
@@ -88,14 +89,32 @@ function render() {
   updateMessage()
 }
 
+function setPieces() {
+  startLocations = []
+
+  const whiteRook1 = new Piece("R", "White", 54, false)
+  const whiteRook2 = new Piece("R", "White", 1, false)
+  const whiteKing = new Piece("K", "White", 26, false)
+  const blackKing = new Piece("K", "Black", 30, false)
+
+  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
+  pieces.forEach((piece) => {
+    startLocations.push(piece.location)
+  })
+}
+
 function checkState() {
-  if (pieces[0].location === 54) {
+  let currentLoc = []
+  pieces.forEach((piece) => {
+    currentLoc.push(piece.location)
+  })
+  if (startLocations.toString() === currentLoc.toString()) {
     winner = false
     gameState = 0
   } else if (pieces[0].location === 50) {
     gameState = 1
     updateMessage()
-  } else {
+  } else if (pieces[0].selected === false) {
     gameState = 2
     updateMessage()
   }
@@ -106,15 +125,6 @@ function clearBoard() {
     document.getElementById(square.location).style.backgroundImage = ""
     square.highlighted = false
   })
-}
-
-function setPieces() {
-  const whiteRook1 = new Piece("R", "White", 54, false)
-  const whiteRook2 = new Piece("R", "White", 1, false)
-  const whiteKing = new Piece("K", "White", 26, false)
-  const blackKing = new Piece("K", "Black", 30, false)
-
-  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
 }
 
 function updatePieces() {
