@@ -168,7 +168,6 @@ function handleClick(event) {
         moveSouth()
         moveEast()
         moveWest()
-        moveNW()
       } else if (pieces[pIdx].token === "K") {
         moveKing()
       }
@@ -276,20 +275,6 @@ function moveEast() {
 //todo Add diagonal movement rules and incorporate bishops and a Queen for future puzzles
 function moveNW() {
   // location - 11
-  pieces.forEach((piece) => {
-    if (piece.selected === true) {
-      let hit = piece.location
-      if (hit % 10 === 0) {
-        console.log("Top Row");
-      } else {
-        while (hit > 11) {
-          hit = Math.trunc(hit - 11)
-          highlightSquares(hit)
-        }
-      }
-        // highlightSquares(hit)
-    }
-  })
 }
 
 function moveNE() {
