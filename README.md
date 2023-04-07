@@ -23,3 +23,4 @@ Icebox (future plans):
 1. Introduce other chess pieces (knights and pawns).
 2. Create more puzzles.
 3. Implement stalemate logic.
+4. Implement puzzles with solutions that require two moves.
