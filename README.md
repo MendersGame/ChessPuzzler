@@ -1,5 +1,7 @@
 # ChessPuzzler
 Play chess puzzles [here](https://js-chess-puzzles.netlify.app/)
+
+
 ![Puzzle Screenshot](./assets/ChessPuzzle.png)
 
 
