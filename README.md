@@ -13,7 +13,8 @@ Technologies used:
 2. JavaScript
 3. CSS
 4. HTML
-5. Gimp
+5. Git
+6. Gimp
 
 
 Image assets (chess pieces) aquired from [here](https://commons.wikimedia.org/wiki/Category:PNG_chess_pieces/Standard_transparent)
