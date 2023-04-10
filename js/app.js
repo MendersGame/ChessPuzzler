@@ -150,7 +150,7 @@ function setPiecesThree() {
   const whiteRook2 = new Piece("R", "White", 33, false)
   const whiteKing = new Piece("K", "White", 26, false)
   const blackKing = new Piece("K", "Black", 20, false)
-  const whiteBishop1 = new Piece("B", "White", 75, false)
+  const whiteBishop1 = new Piece("B", "White", 66, false)
   const whiteQueen = new Piece("Q", "White", 61, false)
   const whiteBishop2 = new Piece("B", "White", 47, false)
   pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteQueen, whiteBishop2]
@@ -212,7 +212,6 @@ function updatePieces() {
     boardSquares.forEach((square) => {
       if (square.location === sq) {
         square.occupied = true
-        console.log(square.location);
       }
     })
   })
@@ -221,7 +220,6 @@ function updatePieces() {
 
 function handleClick(event) {
   const sqInt = parseInt(event.target.id)
-  console.log(sqInt);
   checkState()
   if (gameState === 0) {
     if (pieces.find(piece => piece.location === sqInt)) {
@@ -243,11 +241,12 @@ function handleClick(event) {
         moveKing()
       } else if (pieces[pIdx].token === "B") {
         clearBoard()
-        updatePieces()
+        
         moveNE()
         moveNW()
         moveSE()
         moveSW()
+        updatePieces()
       } else if (pieces[pIdx].token === "Q") {
         clearBoard()
         updatePieces()
@@ -361,7 +360,6 @@ function moveEast() {
   })
 }
 
-//todo Add diagonal movement rules and incorporate bishops and a Queen for future puzzles
 function moveNW() {
   // location - 11
   pieces.forEach((piece) => {
@@ -395,7 +393,6 @@ function moveNW() {
 
 function moveNE() {
   // location + 9
-  // move + 9 as many times as the ones digit, unless ones + tens > 8, then tens + 1 until = 7
   pieces.forEach((piece) => {
     let hit = piece.location
     if (piece.selected === true) {
