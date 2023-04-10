@@ -118,10 +118,10 @@ function render() {
 function setPiecesOne() {
   activePuzzle = 1
   startLocations = []
-  const whiteRook1 = new Piece("R", "White", 54, false)
+  const whiteRook1 = new Piece("R", "White", 44, false)
   const whiteRook2 = new Piece("R", "White", 1, false)
   const whiteKing = new Piece("K", "White", 26, false)
-  const blackKing = new Piece("K", "Black", 30, false)
+  const blackKing = new Piece("K", "Black", 20, false)
   pieces = [whiteRook1, whiteRook2, whiteKing, blackKing]
   pieces.forEach((piece) => {
     startLocations.push(piece.location)
@@ -132,12 +132,13 @@ function setPiecesTwo() {
   activePuzzle = 2
   startLocations = []
   const whiteRook1 = new Piece("R", "White", 16, false)
-  const whiteRook2 = new Piece("R", "White", 41, false)
-  const whiteKing = new Piece("K", "White", 62, false)
+  const whiteRook2 = new Piece("R", "White", 61, false)
+  const whiteKing = new Piece("K", "White", 35, false)
   const blackKing = new Piece("K", "Black", 0, false)
-  const whiteBishop1 = new Piece("B", "White", 57, false)
-  const whiteBishop2 = new Piece("B", "White", 65, false)
-  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteBishop2]
+  const whiteBishop1 = new Piece("B", "White", 73, false)
+  const whiteBishop2 = new Piece("B", "White", 54, false)
+  const blackPawn = new Piece("P", "Black", 2, false)
+  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteBishop2, blackPawn]
   pieces.forEach((piece) => {
     startLocations.push(piece.location)
   })
@@ -146,14 +147,11 @@ function setPiecesTwo() {
 function setPiecesThree() {
   activePuzzle = 3
   startLocations = []
-  const whiteRook1 = new Piece("R", "White", 13, false)
-  const whiteRook2 = new Piece("R", "White", 33, false)
+  const whiteBishop1 = new Piece("B", "White", 54, false)
+  const whiteQueen = new Piece("Q", "White", 61, false)
   const whiteKing = new Piece("K", "White", 26, false)
   const blackKing = new Piece("K", "Black", 20, false)
-  const whiteBishop1 = new Piece("B", "White", 66, false)
-  const whiteQueen = new Piece("Q", "White", 61, false)
-  const whiteBishop2 = new Piece("B", "White", 47, false)
-  pieces = [whiteRook1, whiteRook2, whiteKing, blackKing, whiteBishop1, whiteQueen, whiteBishop2]
+  pieces = [whiteQueen, whiteBishop1, whiteKing, blackKing]
   // pieces = [whiteBishop1, whiteQueen]
   pieces.forEach((piece) => {
     startLocations.push(piece.location)
@@ -168,7 +166,7 @@ function checkState() {
   if (startLocations.toString() === currentLoc.toString()) {
     winner = false
     gameState = 0
-  } else if (pieces[0].location === 50 || pieces[0].location === 10) {
+  } else if (pieces[0].location === 40 || pieces[0].location === 10 || pieces[0].location === 21) {
     gameState = 1
     updateMessage()
   } else if (startLocations.toString() !== currentLoc.toString()) {
@@ -207,6 +205,10 @@ function updatePieces() {
     } else if (piece.token === "K" && piece.color === "Black") {
       const pieceSquare = document.getElementById(sq)
       pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackKing.png')"
+      pieceSquare.style.backgroundSize = "cover"
+    } else if (piece.token === "P" && piece.color === "Black") {
+      const pieceSquare = document.getElementById(sq)
+      pieceSquare.style.backgroundImage = "url('../assets/Pieces/blackPawn.png')"
       pieceSquare.style.backgroundSize = "cover"
     }
     boardSquares.forEach((square) => {
