@@ -28,6 +28,7 @@ let pieces = []
 let startLocations = []
 
 // Integrated shading to create a checkered pattern on game board
+//todo Integrate createElementById for board creation
 for (let col = 0; col < 80; col += 10) {
   for (let row = 0; row < 8; row++) {
     if (col === 0 || col === 20 || col === 40 || col === 60) {
@@ -152,12 +153,12 @@ function setPiecesThree() {
   const whiteKing = new Piece("K", "White", 26, false)
   const blackKing = new Piece("K", "Black", 20, false)
   pieces = [whiteQueen, whiteBishop1, whiteKing, blackKing]
-  // pieces = [whiteBishop1, whiteQueen]
   pieces.forEach((piece) => {
     startLocations.push(piece.location)
   })
 }
 
+//todo Add functionality to dynamically check for checkmate game state
 function checkState() {
   let currentLoc = []
   pieces.forEach((piece) => {
@@ -243,7 +244,6 @@ function handleClick(event) {
         moveKing()
       } else if (pieces[pIdx].token === "B") {
         clearBoard()
-        
         moveNE()
         moveNW()
         moveSE()
@@ -251,7 +251,6 @@ function handleClick(event) {
         updatePieces()
       } else if (pieces[pIdx].token === "Q") {
         clearBoard()
-        updatePieces()
         moveNorth()
         moveSouth()
         moveEast()
@@ -260,6 +259,7 @@ function handleClick(event) {
         moveNW()
         moveSE()
         moveSW()
+        updatePieces()
       }
       // check if piece was selected or if move was made
     } else {
@@ -388,7 +388,6 @@ function moveNW() {
           highlightSquares(hit)
         }
       }
-
     }
   })
 }
@@ -486,6 +485,8 @@ function moveKnight() {
   //+/- 8, 19, 21, 12
 }
 
+//todo Program method to check for King location and update squares accordingly
+//todo Check for square.available status
 function moveKing() {
   highlightSquares(pieces[2].location + 1)
   highlightSquares(pieces[2].location - 1)
